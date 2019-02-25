@@ -1,0 +1,28 @@
+version: '3'
+services:
+  httpd:
+    build: httpd
+    ports:
+      - "80:80"
+    volumes:
+      - $VHOSTS_DIR:/vhosts
+  tlself:
+    build: tlself
+    depends_on:
+      - httpd
+    environment:
+      - TRUST_CERTDIR=$HOME/.tlself
+      - LISTEN=:443
+      - BACKEND=httpd:80
+    ports:
+      - "443:443"
+    volumes:
+      - ~/.tlself:/certs
+  dns:
+    build: dns
+    tty: true # needed for dnsmasq to handle signals
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "127.0.0.1:19053:53/tcp"
+      - "127.0.0.1:19053:53/udp"
