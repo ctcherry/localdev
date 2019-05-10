@@ -6,6 +6,7 @@ services:
       - "80:80"
     volumes:
       - $VHOSTS_DIR:/vhosts
+      - $PHPLIB_DIR:/phplib
   tlself:
     build: tlself
     depends_on:
