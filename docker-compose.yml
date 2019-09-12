@@ -7,6 +7,7 @@ services:
     volumes:
       - $VHOSTS_DIR:/vhosts
       - $PHPLIB_DIR:/phplib
+      - $PHPLIB_DIR:/http/lib
   tlself:
     build: tlself
     depends_on:
